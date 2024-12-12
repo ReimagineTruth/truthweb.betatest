@@ -127,6 +127,34 @@
         .icon:hover, .icon:focus {
             transform: scale(1.1);
         }
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .breadcrumb a {
+            color: var(--text-color);
+            text-decoration: none;
+        }
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: var(--text-color);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 <body class="bg-[var(--bg-color)] text-[var(--text-color)] flex flex-col items-center justify-center min-h-screen transition-colors duration-300 dark-mode">
@@ -160,6 +188,13 @@
     <div class="block sm:hidden w-full px-4 mt-16">
         <input type="text" placeholder="🔍 Search..." class="search-bar bg-[var(--icon-bg-color)] text-[var(--text-color)] border-none p-2 rounded-full w-full transition-width duration-300 focus:outline-none">
     </div>
+
+    <!-- Breadcrumb Navigation -->
+    <nav class="breadcrumb mt-16">
+        <a href="home.html">Home</a>
+        <span>/</span>
+        <a href="discover.html">Discover</a>
+    </nav>
 
     <div class="text-center fade-in mb-12 mt-16">
         <h1 class="text-2xl font-bold mb-2">Discover 🌐</h1>
