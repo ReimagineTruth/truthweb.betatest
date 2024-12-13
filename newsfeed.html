@@ -155,11 +155,19 @@
                 transform: rotate(360deg);
             }
         }
+        .hidden-header-footer {
+            transform: translateY(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        .hidden-footer {
+            transform: translateY(100%);
+            transition: transform 0.3s ease-in-out;
+        }
     </style>
 </head>
 <body class="bg-[var(--bg-color)] text-[var(--text-color)] flex flex-col items-center justify-center min-h-screen transition-colors duration-300 dark-mode">
     <!-- Navigation Header -->
-    <div class="fixed top-0 left-0 right-0 bg-[var(--bg-color)] text-[var(--text-color)] flex justify-between items-center h-16 px-4 transition-colors duration-300 dark-mode">
+    <div id="header" class="fixed top-0 left-0 right-0 bg-[var(--bg-color)] text-[var(--text-color)] flex justify-between items-center h-16 px-4 transition-colors duration-300 dark-mode">
         <div class="flex items-center">
             <button id="menuButton" class="text-[var(--text-color)] mr-4 icon">
                 <i class="fas fa-bars text-xl sm:text-2xl"></i>
@@ -185,7 +193,7 @@
     </div>
 
     <!-- Footer Navigation -->
-    <div class="fixed bottom-0 left-0 right-0 bg-[var(--bg-color)] text-[var(--text-color)] transition-colors duration-300 dark-mode">
+    <div id="footer" class="fixed bottom-0 left-0 right-0 bg-[var(--bg-color)] text-[var(--text-color)] transition-colors duration-300 dark-mode">
         <div class="flex justify-around items-center h-16">
             <a href="home.html" class="relative icon-container text-[var(--text-color)] icon">
                 <i class="fas fa-home text-xl sm:text-2xl"></i>
@@ -244,6 +252,36 @@
         </div>
     </div>
 
+    <!-- Main Content -->
+    <div id="content" class="w-full max-w-4xl mt-20 mb-20 px-4">
+        <!-- Example content to demonstrate infinite scroll -->
+        <div id="newsFeed">
+            <div class="news-item p-4 mb-4 bg-[var(--icon-bg-color)] rounded-lg">
+                <h2 class="text-xl font-bold">News Item 1</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nisl eros, pulvinar facilisis justo mollis, auctor consequat urna.</p>
+            </div>
+            <div class="news-item p-4 mb-4 bg-[var(--icon-bg-color)] rounded-lg">
+                <h2 class="text-xl font-bold">News Item 2</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nisl eros, pulvinar facilisis justo mollis, auctor consequat urna.</p>
+            </div>
+            <div class="news-item p-4 mb-4 bg-[var(--icon-bg-color)] rounded-lg">
+                <h2 class="text-xl font-bold">News Item 3</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nisl eros, pulvinar facilisis justo mollis, auctor consequat urna.</p>
+            </div>
+            <div class="news-item p-4 mb-4 bg-[var(--icon-bg-color)] rounded-lg">
+                <h2 class="text-xl font-bold">News Item 4</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nisl eros, pulvinar facilisis justo mollis, auctor consequat urna.</p>
+            </div>
+            <div class="news-item p-4 mb-4 bg-[var(--icon-bg-color)] rounded-lg">
+                <h2 class="text-xl font-bold">News Item 5</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nisl eros, pulvinar facilisis justo mollis, auctor consequat urna.</p>
+            </div>
+        </div>
+        <div id="loading" class="flex justify-center items-center mt-4">
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+
     <script>
         const menuButton = document.getElementById('menuButton');
         const closeButton = document.getElementById('closeButton');
@@ -255,6 +293,10 @@
         const openModalButton = document.getElementById('openModalButton');
         const closeModalButton = document.getElementById('closeModalButton');
         const infoModal = document.getElementById('infoModal');
+
+        const header = document.getElementById('header');
+        const footer = document.getElementById('footer');
+        let lastScrollTop = 0;
 
         menuButton.addEventListener('click', () => {
             menuDrawer.classList.add('drawer-open');
@@ -303,6 +345,48 @@
                     }, 300); // Delay to allow smooth transition
                 }
             });
+        });
+
+        // Infinite Scroll
+        const newsFeed = document.getElementById('newsFeed');
+        const loading = document.getElementById('loading');
+
+        let isLoading = false;
+
+        const loadMoreContent = () => {
+            if (isLoading) return;
+            isLoading = true;
+            loading.style.display = 'flex';
+
+            setTimeout(() => {
+                for (let i = 0; i < 5; i++) {
+                    const newsItem = document.createElement('div');
+                    newsItem.className = 'news-item p-4 mb-4 bg-[var(--icon-bg-color)] rounded-lg';
+                    newsItem.innerHTML = `
+                        <h2 class="text-xl font-bold">News Item</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nisl eros, pulvinar facilisis justo mollis, auctor consequat urna.</p>
+                    `;
+                    newsFeed.appendChild(newsItem);
+                }
+                isLoading = false;
+                loading.style.display = 'none';
+            }, 1000);
+        };
+
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > lastScrollTop) {
+                header.classList.add('hidden-header-footer');
+                footer.classList.add('hidden-footer');
+            } else {
+                header.classList.remove('hidden-header-footer');
+                footer.classList.remove('hidden-footer');
+            }
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
+                loadMoreContent();
+            }
         });
     </script>
 </body>
