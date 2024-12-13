@@ -1,0 +1,393 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Truth Web</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .dark-mode {
+            --bg-color: #000;
+            --text-color: #fff;
+            --icon-bg-color: #2d3748;
+            --border-color: #4a5568;
+            --hover-bg-color: #4a5568;
+        }
+        .light-mode {
+            --bg-color: #fff;
+            --text-color: #000;
+            --icon-bg-color: #e2e8f0;
+            --border-color: #cbd5e0;
+            --hover-bg-color: #cbd5e0;
+        }
+        .icon-container {
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        .icon-container:hover, .icon-container:focus {
+            transform: scale(1.1);
+            background-color: var(--hover-bg-color);
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes bounceIn {
+            0%, 20%, 40%, 60%, 80%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        .fade-in {
+            animation: fadeIn 2s ease-in-out;
+        }
+        .bounce-in {
+            animation: bounceIn 1s ease-in-out;
+        }
+        .logo-text {
+            font-size: 1.5rem; /* Default size */
+            transition: font-size 0.3s ease;
+        }
+        @media (min-width: 640px) {
+            .logo-text {
+                font-size: 2rem; /* Resize for larger screens */
+            }
+        }
+        .drawer {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        .drawer-open {
+            transform: translateX(0);
+        }
+        .right-drawer {
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        .right-drawer-open {
+            transform: translateX(0);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 50;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+            color: black;
+            font-family: 'Open Sans', sans-serif;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .menu-item {
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        .menu-item:hover, .menu-item:focus {
+            transform: scale(1.1);
+            background-color: var(--hover-bg-color);
+        }
+        .search-bar {
+            transition: width 0.3s ease-in-out;
+        }
+        .search-bar:focus {
+            width: 16rem; /* 64 */
+        }
+        .icon {
+            transition: transform 0.3s ease;
+        }
+        .icon:hover, .icon:focus {
+            transform: scale(1.1);
+        }
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .breadcrumb a {
+            color: var(--text-color);
+            text-decoration: none;
+        }
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: var(--text-color);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        .hidden-header-footer {
+            transform: translateY(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        .hidden-footer {
+            transform: translateY(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-[var(--bg-color)] text-[var(--text-color)] flex flex-col items-center justify-center min-h-screen transition-colors duration-300 dark-mode">
+    <!-- Navigation Header -->
+    <div id="header" class="fixed top-0 left-0 right-0 bg-[var(--bg-color)] text-[var(--text-color)] flex justify-between items-center h-16 px-4 transition-colors duration-300 dark-mode">
+        <div class="flex items-center">
+            <button id="menuButton" class="text-[var(--text-color)] mr-4 icon">
+                <i class="fas fa-bars text-xl sm:text-2xl"></i>
+            </button>
+            <a href="home.html" class="text-[var(--text-color)] mr-4 flex items-center">
+                <span class="logo-text ml-2">TruthWeb</span>
+            </a>
+        </div>
+        <div class="hidden sm:block">
+            <input type="text" placeholder="🔍 Search..." class="search-bar bg-[var(--icon-bg-color)] text-[var(--text-color)] border-none p-2 rounded-full transition-width duration-300 focus:outline-none">
+        </div>
+        <div class="flex items-center">
+            <a href="notifications.html" class="text-[var(--text-color)] mr-4 icon">
+                <i class="fas fa-bell text-xl sm:text-2xl"></i>
+            </a>
+            <a href="messages.html" class="text-[var(--text-color)] mr-4 icon">
+                <i class="fas fa-comments text-xl sm:text-2xl"></i>
+            </a>
+            <a href="profile.html" class="text-[var(--text-color)] icon">
+                <i class="fas fa-user text-xl sm:text-2xl"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer Navigation -->
+    <div id="footer" class="fixed bottom-0 left-0 right-0 bg-[var(--bg-color)] text-[var(--text-color)] transition-colors duration-300 dark-mode">
+        <div class="flex justify-around items-center h-16">
+            <a href="home.html" class="relative icon-container text-[var(--text-color)] icon">
+                <i class="fas fa-home text-xl sm:text-2xl"></i>
+            </a>
+            <a href="search.html" class="icon-container text-[var(--text-color)] icon">
+                <i class="fas fa-search text-xl sm:text-2xl"></i>
+            </a>
+            <a href="edit.html" class="icon-container text-[var(--text-color)] icon">
+                <i class="fas fa-edit text-xl sm:text-2xl"></i>
+            </a>
+            <a href="users.html" class="icon-container text-[var(--text-color)] icon">
+                <i class="fas fa-users text-xl sm:text-2xl"></i>
+            </a>
+            <a href="notifications.html" class="icon-container text-[var(--text-color)] icon">
+                <i class="fas fa-bell text-xl sm:text-2xl"></i>
+            </a>
+            <a href="messages.html" class="icon-container text-[var(--text-color)] icon">
+                <i class="fas fa-envelope text-xl sm:text-2xl"></i>
+            </a>
+            <button id="themeToggleButton" class="icon-container text-[var(--text-color)] icon">
+                <i id="themeIcon" class="fas fa-moon text-xl sm:text-2xl"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Left Drawer (Main Navigation) -->
+    <div id="menuDrawer" class="fixed top-0 left-0 h-full w-64 bg-[var(--bg-color)] text-[var(--text-color)] drawer transition-colors duration-300 dark-mode">
+        <div class="p-4">
+            <button id="closeButton" class="text-[var(--text-color)] mb-4 icon">
+                <i class="fas fa-times text-xl sm:text-2xl"></i>
+            </button>
+            <ul>
+                <li class="mb-2"><a href="home.html" class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon"><i class="fas fa-home mr-2"></i> Home</a></li>
+                <li class="mb-2"><a href="discover.html" class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon"><i class="fas fa-globe mr-2"></i> Discover</a></li>
+                <li class="mb-2"><a href="newsfeed.html" class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon"><i class="fas fa-bullhorn mr-2"></i> News Feed</a></li>
+                <li class="mb-2"><a href="groups.html" class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon"><i class="fas fa-users mr-2"></i> Groups</a></li>
+                <li class="mb-2"><a href="messages.html" class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon"><i class="fas fa-envelope mr-2"></i> Messages</a></li>
+                <li class="mb-2"><a href="analytics.html" class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon"><i class="fas fa-chart-bar mr-2"></i> Analytics</a></li>
+                <li class="mb-2"><a href="settings.html" class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon"><i class="fas fa-cog mr-2"></i> Settings</a></li>
+                <li class="mb-2"><a href="logout.html" class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon"><i class="fas fa-sign-out-alt mr-2"></i> Logout</a></li>
+                <li class="mb-2">
+                    <button id="openModalButton" class="text-[var(--text-color)] p-2 block rounded menu-item w-full text-left flex items-center icon">
+                        <i class="fas fa-info-circle mr-2"></i> Info
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModalButton">&times;</span>
+            <h2>About TruthWeb</h2>
+            <p>TruthWeb is a cutting-edge platform dedicated to delivering accurate, real-time information to users worldwide. 📚 Our mission is to ensure that everyone has seamless access to verified and up-to-date truths, fostering a more informed and connected global community. 🌐</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="content" class="w-full max-w-4xl mt-20 mb-20 px-4">
+        <!-- Example content to demonstrate infinite scroll -->
+        <div id="newsFeed">
+            <div class="news-item p-4 mb-4 bg-[var(--icon-bg-color)] rounded-lg">
+                <h2 class="text-xl font-bold">News Item 1</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nisl eros, pulvinar facilisis justo mollis, auctor consequat urna.</p>
+            </div>
+            <div class="news-item p-4 mb-4 bg-[var(--icon-bg-color)] rounded-lg">
+                <h2 class="text-xl font-bold">News Item 2</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nisl eros, pulvinar facilisis justo mollis, auctor consequat urna.</p>
+            </div>
+            <div class="news-item p-4 mb-4 bg-[var(--icon-bg-color)] rounded-lg">
+                <h2 class="text-xl font-bold">News Item 3</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nisl eros, pulvinar facilisis justo mollis, auctor consequat urna.</p>
+            </div>
+            <div class="news-item p-4 mb-4 bg-[var(--icon-bg-color)] rounded-lg">
+                <h2 class="text-xl font-bold">News Item 4</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nisl eros, pulvinar facilisis justo mollis, auctor consequat urna.</p>
+            </div>
+            <div class="news-item p-4 mb-4 bg-[var(--icon-bg-color)] rounded-lg">
+                <h2 class="text-xl font-bold">News Item 5</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nisl eros, pulvinar facilisis justo mollis, auctor consequat urna.</p>
+            </div>
+        </div>
+        <div id="loading" class="flex justify-center items-center mt-4">
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+
+    <script>
+        const menuButton = document.getElementById('menuButton');
+        const closeButton = document.getElementById('closeButton');
+        const menuDrawer = document.getElementById('menuDrawer');
+        const themeToggleButton = document.getElementById('themeToggleButton');
+        const themeIcon = document.getElementById('themeIcon');
+        const body = document.body;
+
+        const openModalButton = document.getElementById('openModalButton');
+        const closeModalButton = document.getElementById('closeModalButton');
+        const infoModal = document.getElementById('infoModal');
+
+        const header = document.getElementById('header');
+        const footer = document.getElementById('footer');
+        let lastScrollTop = 0;
+
+        menuButton.addEventListener('click', () => {
+            menuDrawer.classList.add('drawer-open');
+        });
+
+        closeButton.addEventListener('click', () => {
+            menuDrawer.classList.remove('drawer-open');
+        });
+
+        themeToggleButton.addEventListener('click', () => {
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                body.classList.add('light-mode');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                body.classList.remove('light-mode');
+                body.classList.add('dark-mode');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        });
+
+        openModalButton.addEventListener('click', () => {
+            infoModal.style.display = 'flex';
+        });
+
+        closeModalButton.addEventListener('click', () => {
+            infoModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target == infoModal) {
+                infoModal.style.display = 'none';
+            }
+        });
+
+        // Add smooth navigation to buttons
+        document.querySelectorAll('a, button').forEach(element => {
+            element.addEventListener('click', (event) => {
+                const href = element.getAttribute('href');
+                if (href) {
+                    event.preventDefault();
+                    setTimeout(() => {
+                        window.location.href = href;
+                    }, 300); // Delay to allow smooth transition
+                }
+            });
+        });
+
+        // Infinite Scroll
+        const newsFeed = document.getElementById('newsFeed');
+        const loading = document.getElementById('loading');
+
+        let isLoading = false;
+
+        const loadMoreContent = () => {
+            if (isLoading) return;
+            isLoading = true;
+            loading.style.display = 'flex';
+
+            setTimeout(() => {
+                for (let i = 0; i < 5; i++) {
+                    const newsItem = document.createElement('div');
+                    newsItem.className = 'news-item p-4 mb-4 bg-[var(--icon-bg-color)] rounded-lg';
+                    newsItem.innerHTML = `
+                        <h2 class="text-xl font-bold">News Item</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nisl eros, pulvinar facilisis justo mollis, auctor consequat urna.</p>
+                    `;
+                    newsFeed.appendChild(newsItem);
+                }
+                isLoading = false;
+                loading.style.display = 'none';
+            }, 1000);
+        };
+
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > lastScrollTop) {
+                header.classList.add('hidden-header-footer');
+                footer.classList.add('hidden-footer');
+            } else {
+                header.classList.remove('hidden-header-footer');
+                footer.classList.remove('hidden-footer');
+            }
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
+                loadMoreContent();
+            }
+        });
+    </script>
+</body>
+</html>
