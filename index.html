@@ -155,11 +155,18 @@
                 transform: rotate(360deg);
             }
         }
+        .page-transition {
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .page-transition-active {
+            opacity: 1;
+        }
     </style>
 </head>
-<body class="bg-[var(--bg-color)] text-[var(--text-color)] flex flex-col items-center justify-center min-h-screen transition-colors duration-300 dark-mode">
+<body class="bg-[var(--bg-color)] text-[var(--text-color)] flex flex-col items-center justify-center min-h-screen transition-colors duration-300 page-transition">
     <!-- Navigation Header -->
-    <div class="fixed top-0 left-0 right-0 bg-[var(--bg-color)] text-[var(--text-color)] flex justify-between items-center h-16 px-4 transition-colors duration-300 dark-mode">
+    <div class="fixed top-0 left-0 right-0 bg-[var(--bg-color)] text-[var(--text-color)] flex justify-between items-center h-16 px-4 transition-colors duration-300">
         <div class="flex items-center">
             <button id="menuButton" class="text-[var(--text-color)] mr-4 icon">
                 <i class="fas fa-bars text-xl sm:text-2xl"></i>
@@ -185,7 +192,7 @@
     </div>
 
     <!-- Footer Navigation -->
-    <div class="fixed bottom-0 left-0 right-0 bg-[var(--bg-color)] text-[var(--text-color)] transition-colors duration-300 dark-mode">
+    <div class="fixed bottom-0 left-0 right-0 bg-[var(--bg-color)] text-[var(--text-color)] transition-colors duration-300">
         <div class="flex justify-around items-center h-16">
             <a href="home.html" class="relative icon-container text-[var(--text-color)] icon">
                 <i class="fas fa-home text-xl sm:text-2xl"></i>
@@ -212,7 +219,7 @@
     </div>
 
     <!-- Left Drawer (Main Navigation) -->
-    <div id="menuDrawer" class="fixed top-0 left-0 h-full w-64 bg-[var(--bg-color)] text-[var(--text-color)] drawer transition-colors duration-300 dark-mode">
+    <div id="menuDrawer" class="fixed top-0 left-0 h-full w-64 bg-[var(--bg-color)] text-[var(--text-color)] drawer transition-colors duration-300">
         <div class="p-4">
             <button id="closeButton" class="text-[var(--text-color)] mb-4 icon">
                 <i class="fas fa-times text-xl sm:text-2xl"></i>
@@ -256,6 +263,25 @@
         const closeModalButton = document.getElementById('closeModalButton');
         const infoModal = document.getElementById('infoModal');
 
+        // Function to apply the theme based on localStorage
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                body.classList.add('dark-mode');
+                body.classList.remove('light-mode');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            } else {
+                body.classList.add('light-mode');
+                body.classList.remove('dark-mode');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+        }
+
+        // Check localStorage for theme preference on page load
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        applyTheme(savedTheme);
+
         menuButton.addEventListener('click', () => {
             menuDrawer.classList.add('drawer-open');
         });
@@ -265,17 +291,10 @@
         });
 
         themeToggleButton.addEventListener('click', () => {
-            if (body.classList.contains('dark-mode')) {
-                body.classList.remove('dark-mode');
-                body.classList.add('light-mode');
-                themeIcon.classList.remove('fa-moon');
-                themeIcon.classList.add('fa-sun');
-            } else {
-                body.classList.remove('light-mode');
-                body.classList.add('dark-mode');
-                themeIcon.classList.remove('fa-sun');
-                themeIcon.classList.add('fa-moon');
-            }
+            const currentTheme = body.classList.contains('dark-mode') ? 'dark' : 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            localStorage.setItem('theme', newTheme);
+            applyTheme(newTheme);
         });
 
         openModalButton.addEventListener('click', () => {
@@ -298,9 +317,10 @@
                 const href = element.getAttribute('href');
                 if (href) {
                     event.preventDefault();
+                    document.body.classList.remove('page-transition-active');
                     setTimeout(() => {
                         window.location.href = href;
-                    }, 300); // Delay to allow smooth transition
+                    }, 500); // Delay to allow smooth transition
                 }
             });
         });
@@ -311,11 +331,17 @@
                 const href = link.getAttribute('href');
                 if (href && !['home.html', 'discover.html', 'newsfeed.html', 'groups.html', 'messages.html', 'analytics.html', 'settings.html', 'logout.html', 'notifications.html', 'profile.html', 'search.html', 'edit.html', 'users.html'].includes(href)) {
                     event.preventDefault();
+                    document.body.classList.remove('page-transition-active');
                     setTimeout(() => {
                         window.location.href = '404.html';
-                    }, 300); // Delay to allow smooth transition
+                    }, 500); // Delay to allow smooth transition
                 }
             });
+        });
+
+        // Add page transition class on load
+        window.addEventListener('load', () => {
+            document.body.classList.add('page-transition-active');
         });
     </script>
 </body>
