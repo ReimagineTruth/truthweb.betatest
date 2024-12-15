@@ -304,6 +304,19 @@
                 }
             });
         });
+
+        // Redirect to 404 page for unavailable content
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', (event) => {
+                const href = link.getAttribute('href');
+                if (href && !['home.html', 'discover.html', 'newsfeed.html', 'groups.html', 'messages.html', 'analytics.html', 'settings.html', 'logout.html', 'notifications.html', 'profile.html', 'search.html', 'edit.html', 'users.html'].includes(href)) {
+                    event.preventDefault();
+                    setTimeout(() => {
+                        window.location.href = '404.html';
+                    }, 300); // Delay to allow smooth transition
+                }
+            });
+        });
     </script>
 </body>
 </html>
