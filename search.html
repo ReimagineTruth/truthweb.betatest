@@ -1,34 +1,17 @@
 <html lang="en">
- <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>
-   Truth Web
-  </title>
-  <script src="https://cdn.tailwindcss.com">
-  </script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
-  <style>
-   .dark-mode {
-            --bg-color: #000;
-            --text-color: #fff;
-            --icon-bg-color: #2d3748;
-            --border-color: #4a5568;
-            --hover-bg-color: #4a5568;
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TruthWeb Browser</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
         }
-        .light-mode {
-            --bg-color: #fff;
-            --text-color: #000;
-            --icon-bg-color: #e2e8f0;
-            --border-color: #cbd5e0;
-            --hover-bg-color: #cbd5e0;
-        }
-        .icon-container {
-            transition: transform 0.3s ease, background-color 0.3s ease;
-        }
-        .icon-container:hover, .icon-container:focus {
-            transform: scale(1.1);
-            background-color: var(--hover-bg-color);
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
         }
         @keyframes fadeIn {
             from {
@@ -38,28 +21,44 @@
                 opacity: 1;
             }
         }
-        @keyframes bounceIn {
-            0%, 20%, 40%, 60%, 80%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
+        .floating {
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            background-color: var(--bg-color);
         }
-        .fade-in {
-            animation: fadeIn 2s ease-in-out;
+        :root {
+            --bg-color: #000000; /* Black */
+            --text-color: #FFFFFF; /* White */
+            --input-bg-color: #333333; /* Dark Gray */
+            --input-border-color: #555555; /* Gray */
+            --placeholder-color: #AAAAAA; /* Light Gray */
         }
-        .bounce-in {
-            animation: bounceIn 1s ease-in-out;
+        [data-theme="light"] {
+            --bg-color: #FFFFFF; /* White */
+            --text-color: #000000; /* Black */
+            --input-bg-color: #DDDDDD; /* Light Gray */
+            --input-border-color: #BBBBBB; /* Gray */
+            --placeholder-color: #555555; /* Dark Gray */
         }
-        .logo-text {
-            font-size: 1.5rem; /* Default size */
-            transition: font-size 0.3s ease;
+        .recommendations {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: var(--input-bg-color);
+            border: 1px solid var(--input-border-color);
+            border-radius: 0 0 12px 12px;
+            z-index: 10;
         }
-        @media (min-width: 640px) {
-            .logo-text {
-                font-size: 2rem; /* Resize for larger screens */
-            }
+        .recommendations a {
+            display: block;
+            padding: 8px 16px;
+            color: var(--text-color);
+            text-decoration: none;
+        }
+        .recommendations a:hover {
+            background-color: var(--input-border-color);
         }
         .drawer {
             transform: translateX(-100%);
@@ -68,17 +67,10 @@
         .drawer-open {
             transform: translateX(0);
         }
-        .right-drawer {
-            transform: translateX(100%);
-            transition: transform 0.3s ease-in-out;
-        }
-        .right-drawer-open {
-            transform: translateX(0);
-        }
         .modal {
             display: none;
             position: fixed;
-            z-index: 50;
+            z-index: 1000;
             left: 0;
             top: 0;
             width: 100%;
@@ -89,300 +81,144 @@
             align-items: center;
         }
         .modal-content {
-            background-color: #fefefe;
-            margin: auto;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             padding: 20px;
-            border: 1px solid #888;
+            border-radius: 12px;
             width: 80%;
             max-width: 500px;
-            border-radius: 10px;
-            color: black;
-            font-family: 'Open Sans', sans-serif;
+            animation: slideIn 0.3s ease-in-out;
+            position: relative;
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
         .close {
-            color: #aaa;
-            float: right;
+            color: var(--text-color);
+            position: absolute;
+            top: 10px;
+            right: 10px;
             font-size: 28px;
             font-weight: bold;
         }
         .close:hover,
         .close:focus {
-            color: black;
+            color: #aaa;
             text-decoration: none;
             cursor: pointer;
         }
         .menu-item {
-            transition: transform 0.3s ease, background-color 0.3s ease;
+            transition: transform 0.2s ease-in-out;
         }
-        .menu-item:hover, .menu-item:focus {
-            transform: scale(1.1);
-            background-color: var(--hover-bg-color);
+        .menu-item:hover {
+            transform: scale(1.05);
         }
-        .search-bar {
-            transition: width 0.3s ease-in-out;
-        }
-        .search-bar:focus {
-            width: 16rem; /* 64 */
-        }
-        .icon {
-            transition: transform 0.3s ease;
-        }
-        .icon:hover, .icon:focus {
-            transform: scale(1.1);
-        }
-        .breadcrumb {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .breadcrumb a {
-            color: var(--text-color);
-            text-decoration: none;
-        }
-        .breadcrumb a:hover {
-            text-decoration: underline;
-        }
-        .loading-spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            border-left-color: var(--text-color);
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-        .slide-in {
-            animation: slideIn 0.5s ease-in-out;
-        }
-        @keyframes slideIn {
-            from {
-                transform: translateY(100%);
-            }
-            to {
-                transform: translateY(0);
-            }
-        }
-        .draggable {
-            position: absolute;
-            cursor: grab;
-        }
-        .hidden-card {
-            display: none;
-        }
-  </style>
- </head>
- <body class="bg-[var(--bg-color)] text-[var(--text-color)] flex flex-col items-center justify-start min-h-screen transition-colors duration-300 dark-mode overflow-y-auto">
-  <!-- Navigation Header -->
-  <div class="fixed top-0 left-0 right-0 bg-[var(--bg-color)] text-[var(--text-color)] flex justify-between items-center h-16 px-4 transition-colors duration-300 dark-mode">
-   <div class="flex items-center">
-    <button class="text-[var(--text-color)] mr-4 icon" id="menuButton">
-     <i class="fas fa-bars text-xl sm:text-2xl">
-     </i>
-    </button>
-    <a class="text-[var(--text-color)] mr-4 flex items-center" href="home.html">
-     <span class="logo-text ml-2">
-      TruthWeb
-     </span>
-    </a>
-   </div>
-   <div class="hidden sm:block">
-    <input class="search-bar bg-[var(--icon-bg-color)] text-[var(--text-color)] border-none p-2 rounded-full transition-width duration-300 focus:outline-none" placeholder="🔍 Search..." type="text"/>
-   </div>
-   <div class="flex items-center">
-    <a class="text-[var(--text-color)] mr-4 icon" href="notifications.html">
-     <i class="fas fa-bell text-xl sm:text-2xl">
-     </i>
-    </a>
-    <a class="text-[var(--text-color)] mr-4 icon" href="messages.html">
-     <i class="fas fa-comments text-xl sm:text-2xl">
-     </i>
-    </a>
-    <a class="text-[var(--text-color)] icon" href="profile.html">
-     <i class="fas fa-user text-xl sm:text-2xl">
-     </i>
-    </a>
-   </div>
-  </div>
-  <!-- 404 Content -->
-  <div class="text-center max-w-2xl mt-20 fade-in p-4">
-   <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-    Oops! You've Reached the TruthWeb 404
-   </h1>
-   <p class="text-base sm:text-lg md:text-xl">
-    We're sorry, but the page you're looking for isn't here. It seems to have vanished into the digital ether. Our team is on the case, trying to uncover the truth behind this missing page.
-   </p>
-   <img alt="Animated 404 error page with a magnifying glass searching for the missing page" class="w-full h-auto mt-4 max-w-md mx-auto" src="https://i.ibb.co/8Ymt8NG/error-404-404.gif"/>
-  </div>
-  <!-- Content Card -->
-  <div class="bg-black text-white p-4 rounded-lg shadow-lg mt-4 max-w-xs mx-auto draggable hidden-card overflow-y-auto" id="contentCard" style="top: 82px; left: 51px; max-height: 300px;">
-   <h2 class="text-xl font-bold mb-2">
-    Recommended Content
-   </h2>
-   <p class="text-base mb-4">
-    While you're here, check out some of our latest articles and updates.
-   </p>
-   <ul class="list-disc list-inside">
-    <li class="mb-2">
-     <a class="text-blue-500 hover:underline" href="#">
-      How to Stay Informed in the Digital Age
-     </a>
-    </li>
-    <li class="mb-2">
-     <a class="text-blue-500 hover:underline" href="#">
-      Top 10 Tips for Online Privacy
-     </a>
-    </li>
-    <li class="mb-2">
-     <a class="text-blue-500 hover:underline" href="#">
-      The Future of Social Media
-     </a>
-    </li>
-   </ul>
-   <button class="bg-green-500 text-white px-4 py-2 rounded mt-4" id="recommendButton">
-    Recommend
-   </button>
-  </div>
-  <!-- Footer Navigation -->
-  <div class="fixed bottom-0 left-0 right-0 bg-[var(--bg-color)] text-[var(--text-color)] transition-colors duration-300 dark-mode slide-in">
-   <div class="flex justify-around items-center h-16">
-    <a class="relative icon-container text-[var(--text-color)] icon" href="home.html">
-     <i class="fas fa-home text-xl sm:text-2xl">
-     </i>
-    </a>
-    <a class="icon-container text-[var(--text-color)] icon" href="search.html">
-     <i class="fas fa-search text-xl sm:text-2xl">
-     </i>
-    </a>
-    <a class="icon-container text-[var(--text-color)] icon" href="edit.html">
-     <i class="fas fa-edit text-xl sm:text-2xl">
-     </i>
-    </a>
-    <a class="icon-container text-[var(--text-color)] icon" href="users.html">
-     <i class="fas fa-users text-xl sm:text-2xl">
-     </i>
-    </a>
-    <a class="icon-container text-[var(--text-color)] icon" href="notifications.html">
-     <i class="fas fa-bell text-xl sm:text-2xl">
-     </i>
-    </a>
-    <a class="icon-container text-[var(--text-color)] icon" href="messages.html">
-     <i class="fas fa-envelope text-xl sm:text-2xl">
-     </i>
-    </a>
-    <button class="icon-container text-[var(--text-color)] icon" id="themeToggleButton">
-     <i class="fas fa-moon text-xl sm:text-2xl" id="themeIcon">
-     </i>
-    </button>
-   </div>
-  </div>
-  <!-- Left Drawer (Main Navigation) -->
-  <div class="fixed top-0 left-0 h-full w-64 bg-[var(--bg-color)] text-[var(--text-color)] drawer transition-colors duration-300 dark-mode" id="menuDrawer">
-   <div class="p-4">
-    <button class="text-[var(--text-color)] mb-4 icon" id="closeButton">
-     <i class="fas fa-times text-xl sm:text-2xl">
-     </i>
-    </button>
-    <ul>
-     <li class="mb-2">
-      <a class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon" href="home.html">
-       <i class="fas fa-home mr-2">
-       </i>
-       Home
-      </a>
-     </li>
-     <li class="mb-2">
-      <a class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon" href="discover.html">
-       <i class="fas fa-globe mr-2">
-       </i>
-       Discover
-      </a>
-     </li>
-     <li class="mb-2">
-      <a class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon" href="newsfeed.html">
-       <i class="fas fa-bullhorn mr-2">
-       </i>
-       News Feed
-      </a>
-     </li>
-     <li class="mb-2">
-      <a class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon" href="groups.html">
-       <i class="fas fa-users mr-2">
-       </i>
-       Groups
-      </a>
-     </li>
-     <li class="mb-2">
-      <a class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon" href="messages.html">
-       <i class="fas fa-envelope mr-2">
-       </i>
-       Messages
-      </a>
-     </li>
-     <li class="mb-2">
-      <a class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon" href="analytics.html">
-       <i class="fas fa-chart-bar mr-2">
-       </i>
-       Analytics
-      </a>
-     </li>
-     <li class="mb-2">
-      <a class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon" href="settings.html">
-       <i class="fas fa-cog mr-2">
-       </i>
-       Settings
-      </a>
-     </li>
-     <li class="mb-2">
-      <a class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon" href="logout.html">
-       <i class="fas fa-sign-out-alt mr-2">
-       </i>
-       Logout
-      </a>
-     </li>
-     <li class="mb-2">
-      <button class="text-[var(--text-color)] p-2 block rounded menu-item w-full text-left flex items-center icon" id="openModalButton">
-       <i class="fas fa-info-circle mr-2">
-       </i>
-       Info
-      </button>
-     </li>
-    </ul>
-   </div>
-  </div>
-  <!-- Modal -->
-  <div class="modal" id="infoModal">
-   <div class="modal-content">
-    <span class="close" id="closeModalButton">
-     ×
-    </span>
-    <h2>
-     About TruthWeb
-    </h2>
-    <p>
-     TruthWeb is a cutting-edge platform dedicated to delivering accurate, real-time information to users worldwide. 📚 Our mission is to ensure that everyone has seamless access to verified and up-to-date truths, fostering a more informed and connected global community. 🌐
-    </p>
-   </div>
-  </div>
-  <script>
-   const menuButton = document.getElementById('menuButton');
+    </style>
+</head>
+<body class="bg-black text-white fade-in" data-theme="dark">
+
+    <header class="bg-black text-white py-4">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0">
+            <div class="flex items-center space-x-4">
+                <button id="menuButton" class="text-gray-300 hover:text-white"><i class="fas fa-bars"></i></button>
+                <h1 class="text-2xl font-bold">TruthWeb Browser</h1>
+            </div>
+            <div class="relative w-full max-w-lg">
+                <input id="url-bar" type="text" class="w-full px-4 py-2 border rounded-full bg-gray-800 border-gray-600 placeholder-gray-400 text-white floating pl-12 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter URL or Search" value="http://google.com">
+                <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                <div id="recommendations" class="recommendations">
+                    <a href="https://www.google.com">Google</a>
+                    <a href="https://www.youtube.com">YouTube</a>
+                    <a href="https://www.facebook.com">Facebook</a>
+                    <a href="https://www.twitter.com">Twitter</a>
+                    <a href="https://www.instagram.com">Instagram</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <footer class="bg-black shadow-md fade-in mt-4 fixed bottom-0 w-full">
+        <div class="container mx-auto px-4 py-2 flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0">
+            <div class="flex items-center space-x-4">
+                <button id="back-btn" class="text-gray-300 hover:text-white"><i class="fas fa-arrow-left"></i></button>
+                <button id="forward-btn" class="text-gray-300 hover:text-white"><i class="fas fa-arrow-right"></i></button>
+                <button id="reload-btn" class="text-gray-300 hover:text-white"><i class="fas fa-redo"></i></button>
+                <button id="home-btn" class="text-gray-300 hover:text-white"><i class="fas fa-home"></i></button>
+                <button id="stop-btn" class="text-gray-300 hover:text-white"><i class="fas fa-stop"></i></button>
+                <button id="bookmark-btn" class="text-gray-300 hover:text-white"><i class="fas fa-bookmark"></i></button>
+                <button id="settings-btn" class="text-gray-300 hover:text-white"><i class="fas fa-cog"></i></button>
+                <button id="theme-toggle" class="text-gray-300 hover:text-white"><i class="fas fa-adjust"></i></button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Left Drawer (Main Navigation) -->
+    <div id="menuDrawer" class="fixed top-0 left-0 h-full w-64 bg-[var(--bg-color)] text-[var(--text-color)] drawer transition-colors duration-300">
+        <div class="p-4 relative">
+            <button id="closeButton" class="text-[var(--text-color)] mb-4 icon absolute top-4 right-4">
+                <i class="fas fa-times text-xl sm:text-2xl"></i>
+            </button>
+            <ul>
+                <li class="mb-2"><a href="home.html" class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon"><i class="fas fa-home mr-2"></i> Home</a></li>
+                <li class="mb-2"><a href="discover.html" class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon"><i class="fas fa-globe mr-2"></i> Discover</a></li>
+                <li class="mb-2"><a href="newsfeed.html" class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon"><i class="fas fa-bullhorn mr-2"></i> News Feed</a></li>
+                <li class="mb-2"><a href="groups.html" class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon"><i class="fas fa-users mr-2"></i> Groups</a></li>
+                <li class="mb-2"><a href="messages.html" class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon"><i class="fas fa-envelope mr-2"></i> Messages</a></li>
+                <li class="mb-2"><a href="analytics.html" class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon"><i class="fas fa-chart-bar mr-2"></i> Analytics</a></li>
+                <li class="mb-2"><a href="settings.html" class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon"><i class="fas fa-cog mr-2"></i> Settings</a></li>
+                <li class="mb-2"><a href="logout.html" class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon"><i class="fas fa-sign-out-alt mr-2"></i> Logout</a></li>
+                <li class="mb-2">
+                    <button id="openModalButton" class="text-[var(--text-color)] p-2 block rounded menu-item w-full text-left flex items-center icon">
+                        <i class="fas fa-info-circle mr-2"></i> Info
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModalButton">&times;</span>
+            <h2>About TruthWeb</h2>
+            <p>TruthWeb is a cutting-edge platform dedicated to delivering accurate, real-time information to users worldwide. 📚 Our mission is to ensure that everyone has seamless access to verified and up-to-date truths, fostering a more informed and connected global community. 🌐</p>
+        </div>
+    </div>
+
+    <script>
+        const menuButton = document.getElementById('menuButton');
         const closeButton = document.getElementById('closeButton');
         const menuDrawer = document.getElementById('menuDrawer');
-        const themeToggleButton = document.getElementById('themeToggleButton');
-        const themeIcon = document.getElementById('themeIcon');
+        const themeToggleButton = document.getElementById('theme-toggle');
         const body = document.body;
 
         const openModalButton = document.getElementById('openModalButton');
         const closeModalButton = document.getElementById('closeModalButton');
         const infoModal = document.getElementById('infoModal');
 
-        const contentCard = document.getElementById('contentCard');
+        // Function to apply the theme based on localStorage
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                body.setAttribute('data-theme', 'dark');
+                body.classList.add('bg-black', 'text-white');
+                body.classList.remove('bg-white', 'text-black');
+            } else {
+                body.setAttribute('data-theme', 'light');
+                body.classList.add('bg-white', 'text-black');
+                body.classList.remove('bg-black', 'text-white');
+            }
+        }
+
+        // Check localStorage for theme preference on page load
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        applyTheme(savedTheme);
 
         menuButton.addEventListener('click', () => {
             menuDrawer.classList.add('drawer-open');
@@ -393,17 +229,10 @@
         });
 
         themeToggleButton.addEventListener('click', () => {
-            if (body.classList.contains('dark-mode')) {
-                body.classList.remove('dark-mode');
-                body.classList.add('light-mode');
-                themeIcon.classList.remove('fa-moon');
-                themeIcon.classList.add('fa-sun');
-            } else {
-                body.classList.remove('light-mode');
-                body.classList.add('dark-mode');
-                themeIcon.classList.remove('fa-sun');
-                themeIcon.classList.add('fa-moon');
-            }
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            localStorage.setItem('theme', newTheme);
+            applyTheme(newTheme);
         });
 
         openModalButton.addEventListener('click', () => {
@@ -420,42 +249,90 @@
             }
         });
 
-        // Add smooth navigation to buttons
-        document.querySelectorAll('a, button').forEach(element => {
-            element.addEventListener('click', (event) => {
-                const href = element.getAttribute('href');
-                if (href) {
-                    event.preventDefault();
-                    setTimeout(() => {
-                        window.location.href = href;
-                    }, 300); // Delay to allow smooth transition
+        document.getElementById('url-bar').addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase();
+            const recommendations = document.getElementById('recommendations');
+            const links = recommendations.getElementsByTagName('a');
+            let hasMatch = false;
+
+            for (let i = 0; i < links.length; i++) {
+                const link = links[i];
+                if (link.textContent.toLowerCase().includes(query)) {
+                    link.style.display = 'block';
+                    hasMatch = true;
+                } else {
+                    link.style.display = 'none';
                 }
-            });
+            }
+
+            recommendations.style.display = hasMatch ? 'block' : 'none';
         });
 
-        // Make the content card draggable
-        const draggableElement = document.querySelector('.draggable');
-        let isDragging = false;
-        let offsetX, offsetY;
-
-        draggableElement.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            offsetX = e.clientX - draggableElement.getBoundingClientRect().left;
-            offsetY = e.clientY - draggableElement.getBoundingClientRect().top;
-            draggableElement.style.cursor = 'grabbing';
-        });
-
-        document.addEventListener('mousemove', (e) => {
-            if (isDragging) {
-                draggableElement.style.left = `${e.clientX - offsetX}px`;
-                draggableElement.style.top = `${e.clientY - offsetY}px`;
+        document.getElementById('url-bar').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const query = e.target.value;
+                if (query.startsWith('http://') || query.startsWith('https://')) {
+                    document.getElementById('browser-frame').src = query;
+                } else {
+                    document.getElementById('browser-frame').src = 'https://www.google.com/search?q=' + encodeURIComponent(query);
+                }
+                document.getElementById('recommendations').style.display = 'none';
             }
         });
 
-        document.addEventListener('mouseup', () => {
-            isDragging = false;
-            draggableElement.style.cursor = 'grab';
+        document.getElementById('back-btn').addEventListener('click', function() {
+            document.getElementById('browser-frame').contentWindow.history.back();
         });
-  </script>
- </body>
+
+        document.getElementById('forward-btn').addEventListener('click', function() {
+            document.getElementById('browser-frame').contentWindow.history.forward();
+        });
+
+        document.getElementById('reload-btn').addEventListener('click', function() {
+            document.getElementById('browser-frame').contentWindow.location.reload();
+        });
+
+        document.getElementById('home-btn').addEventListener('click', function() {
+            document.getElementById('browser-frame').src = 'https://www.google.com';
+        });
+
+        document.getElementById('stop-btn').addEventListener('click', function() {
+            document.getElementById('browser-frame').contentWindow.stop();
+        });
+
+        document.getElementById('bookmark-btn').addEventListener('click', function() {
+            const url = document.getElementById('browser-frame').contentWindow.location.href;
+            const title = document.getElementById('browser-frame').contentWindow.document.title;
+            const bookmark = { url, title };
+            const bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
+            bookmarks.push(bookmark);
+            localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+            alert('Bookmark added!');
+        });
+
+        document.getElementById('settings-btn').addEventListener('click', function() {
+            // Open settings page
+        });
+
+        // Search bar functionality
+        const searchButton = document.getElementById('search-btn');
+        const searchBar = document.getElementById('url-bar');
+
+        searchButton.addEventListener('click', function() {
+            const query = searchBar.value;
+            if (query.startsWith('http://') || query.startsWith('https://')) {
+                document.getElementById('browser-frame').src = query;
+            } else {
+                document.getElementById('browser-frame').src = 'https://www.google.com/search?q=' + encodeURIComponent(query);
+            }
+        });
+
+        // Add event listener to search bar for Enter key press
+        searchBar.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchButton.click();
+            }
+        });
+    </script>
+</body>
 </html>
