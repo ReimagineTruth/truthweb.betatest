@@ -1,338 +1,156 @@
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TruthWeb Browser</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        body {
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   TruthWeb Browser
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+  <style>
+   body {
             font-family: 'Roboto', sans-serif;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
         }
-        .fade-in {
-            animation: fadeIn 1s ease-in-out;
+    .fade-in {
+        animation: fadeIn 1s ease-in-out;
+    }
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
         }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+        to {
+            opacity: 1;
         }
-        .floating {
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-            border-radius: 12px;
-            background-color: var(--bg-color);
+    }
+    .slide-in {
+        animation: slideIn 0.5s ease-in-out;
+    }
+    @keyframes slideIn {
+        from {
+            transform: translateY(-20px);
+            opacity: 0;
         }
-        :root {
-            --bg-color: #000000; /* Black */
-            --text-color: #FFFFFF; /* White */
-            --input-bg-color: #333333; /* Dark Gray */
-            --input-border-color: #555555; /* Gray */
-            --placeholder-color: #AAAAAA; /* Light Gray */
+        to {
+            transform: translateY(0);
+            opacity: 1;
         }
-        [data-theme="light"] {
-            --bg-color: #FFFFFF; /* White */
-            --text-color: #000000; /* Black */
-            --input-bg-color: #DDDDDD; /* Light Gray */
-            --input-border-color: #BBBBBB; /* Gray */
-            --placeholder-color: #555555; /* Dark Gray */
-        }
-        .recommendations {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background-color: var(--input-bg-color);
-            border: 1px solid var(--input-border-color);
-            border-radius: 0 0 12px 12px;
-            z-index: 10;
-        }
-        .recommendations a {
-            display: block;
-            padding: 8px 16px;
-            color: var(--text-color);
-            text-decoration: none;
-        }
-        .recommendations a:hover {
-            background-color: var(--input-border-color);
-        }
-        .drawer {
-            transform: translateX(-100%);
-            transition: transform 0.3s ease-in-out;
-        }
-        .drawer-open {
-            transform: translateX(0);
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            padding: 20px;
-            border-radius: 12px;
-            width: 80%;
-            max-width: 500px;
-            animation: slideIn 0.3s ease-in-out;
-            position: relative;
-        }
-        @keyframes slideIn {
-            from {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-        .close {
-            color: var(--text-color);
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .close:hover,
-        .close:focus {
-            color: #aaa;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .menu-item {
-            transition: transform 0.2s ease-in-out;
-        }
-        .menu-item:hover {
-            transform: scale(1.05);
-        }
-    </style>
-</head>
-<body class="bg-black text-white fade-in" data-theme="dark">
-
-    <header class="bg-black text-white py-4">
-        <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0">
-            <div class="flex items-center space-x-4">
-                <button id="menuButton" class="text-gray-300 hover:text-white"><i class="fas fa-bars"></i></button>
-                <h1 class="text-2xl font-bold">TruthWeb Browser</h1>
-            </div>
-            <div class="relative w-full max-w-lg">
-                <input id="url-bar" type="text" class="w-full px-4 py-2 border rounded-full bg-gray-800 border-gray-600 placeholder-gray-400 text-white floating pl-12 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter URL or Search" value="http://google.com">
-                <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                <div id="recommendations" class="recommendations">
-                    <a href="https://www.google.com">Google</a>
-                    <a href="https://www.youtube.com">YouTube</a>
-                    <a href="https://www.facebook.com">Facebook</a>
-                    <a href="https://www.twitter.com">Twitter</a>
-                    <a href="https://www.instagram.com">Instagram</a>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <footer class="bg-black shadow-md fade-in mt-4 fixed bottom-0 w-full">
-        <div class="container mx-auto px-4 py-2 flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0">
-            <div class="flex items-center space-x-4">
-                <button id="back-btn" class="text-gray-300 hover:text-white"><i class="fas fa-arrow-left"></i></button>
-                <button id="forward-btn" class="text-gray-300 hover:text-white"><i class="fas fa-arrow-right"></i></button>
-                <button id="reload-btn" class="text-gray-300 hover:text-white"><i class="fas fa-redo"></i></button>
-                <button id="home-btn" class="text-gray-300 hover:text-white"><i class="fas fa-home"></i></button>
-                <button id="stop-btn" class="text-gray-300 hover:text-white"><i class="fas fa-stop"></i></button>
-                <button id="bookmark-btn" class="text-gray-300 hover:text-white"><i class="fas fa-bookmark"></i></button>
-                <button id="settings-btn" class="text-gray-300 hover:text-white"><i class="fas fa-cog"></i></button>
-                <button id="theme-toggle" class="text-gray-300 hover:text-white"><i class="fas fa-adjust"></i></button>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Left Drawer (Main Navigation) -->
-    <div id="menuDrawer" class="fixed top-0 left-0 h-full w-64 bg-[var(--bg-color)] text-[var(--text-color)] drawer transition-colors duration-300">
-        <div class="p-4 relative">
-            <button id="closeButton" class="text-[var(--text-color)] mb-4 icon absolute top-4 right-4">
-                <i class="fas fa-times text-xl sm:text-2xl"></i>
-            </button>
-            <ul>
-                <li class="mb-2"><a href="home.html" class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon"><i class="fas fa-home mr-2"></i> Home</a></li>
-                <li class="mb-2"><a href="discover.html" class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon"><i class="fas fa-globe mr-2"></i> Discover</a></li>
-                <li class="mb-2"><a href="newsfeed.html" class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon"><i class="fas fa-bullhorn mr-2"></i> News Feed</a></li>
-                <li class="mb-2"><a href="groups.html" class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon"><i class="fas fa-users mr-2"></i> Groups</a></li>
-                <li class="mb-2"><a href="messages.html" class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon"><i class="fas fa-envelope mr-2"></i> Messages</a></li>
-                <li class="mb-2"><a href="analytics.html" class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon"><i class="fas fa-chart-bar mr-2"></i> Analytics</a></li>
-                <li class="mb-2"><a href="settings.html" class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon"><i class="fas fa-cog mr-2"></i> Settings</a></li>
-                <li class="mb-2"><a href="logout.html" class="text-[var(--text-color)] p-2 block rounded menu-item flex items-center icon"><i class="fas fa-sign-out-alt mr-2"></i> Logout</a></li>
-                <li class="mb-2">
-                    <button id="openModalButton" class="text-[var(--text-color)] p-2 block rounded menu-item w-full text-left flex items-center icon">
-                        <i class="fas fa-info-circle mr-2"></i> Info
-                    </button>
-                </li>
-            </ul>
-        </div>
+    }
+  </style>
+ </head>
+ <body class="bg-black text-white">
+  <div class="flex flex-col h-screen">
+   <!-- Top Bar -->
+   <div class="flex items-center justify-between bg-black p-2 border-b border-gray-700 fade-in">
+    <div class="flex items-center space-x-2">
+     <button class="p-2 hover:bg-gray-800 rounded" onclick="alert('Menu button clicked!')">
+      <i class="fas fa-bars">
+      </i>
+     </button>
+     <span class="text-lg font-medium truncate">
+      TruthWeb Browser
+     </span>
     </div>
-
-    <!-- Modal -->
-    <div id="infoModal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="closeModalButton">&times;</span>
-            <h2>About TruthWeb</h2>
-            <p>TruthWeb is a cutting-edge platform dedicated to delivering accurate, real-time information to users worldwide. 📚 Our mission is to ensure that everyone has seamless access to verified and up-to-date truths, fostering a more informed and connected global community. 🌐</p>
-        </div>
+    <div class="hidden md:flex items-center space-x-2 flex-grow mx-2">
+     <button class="p-2 hover:bg-gray-800 rounded" onclick="history.back()">
+      <i class="fas fa-arrow-left">
+      </i>
+     </button>
+     <button class="p-2 hover:bg-gray-800 rounded" onclick="history.forward()">
+      <i class="fas fa-arrow-right">
+      </i>
+     </button>
+     <button class="p-2 hover:bg-gray-800 rounded" onclick="location.reload()">
+      <i class="fas fa-redo">
+      </i>
+     </button>
+     <form class="flex items-center bg-gray-900 rounded-full flex-grow overflow-hidden" action="https://www.google.com/search" method="GET">
+      <img alt="Magnifying glass icon representing search" class="w-4 h-4 ml-2" height="16" src="https://storage.googleapis.com/a1aa/image/mUUIBrCUim59HFywC3Kgi0tNrHyTyyB2ZHvMRxo7PEpB35eJA.jpg" width="16"/>
+      <input class="flex-grow p-2 outline-none bg-gray-900 text-white rounded-full" name="q" placeholder="Search Google or type a URL" type="text"/>
+      <button class="p-2" type="submit">
+       <i class="fas fa-microphone">
+       </i>
+      </button>
+     </form>
     </div>
-
-    <script>
-        const menuButton = document.getElementById('menuButton');
-        const closeButton = document.getElementById('closeButton');
-        const menuDrawer = document.getElementById('menuDrawer');
-        const themeToggleButton = document.getElementById('theme-toggle');
-        const body = document.body;
-
-        const openModalButton = document.getElementById('openModalButton');
-        const closeModalButton = document.getElementById('closeModalButton');
-        const infoModal = document.getElementById('infoModal');
-
-        // Function to apply the theme based on localStorage
-        function applyTheme(theme) {
-            if (theme === 'dark') {
-                body.setAttribute('data-theme', 'dark');
-                body.classList.add('bg-black', 'text-white');
-                body.classList.remove('bg-white', 'text-black');
-            } else {
-                body.setAttribute('data-theme', 'light');
-                body.classList.add('bg-white', 'text-black');
-                body.classList.remove('bg-black', 'text-white');
-            }
-        }
-
-        // Check localStorage for theme preference on page load
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        applyTheme(savedTheme);
-
-        menuButton.addEventListener('click', () => {
-            menuDrawer.classList.add('drawer-open');
-        });
-
-        closeButton.addEventListener('click', () => {
-            menuDrawer.classList.remove('drawer-open');
-        });
-
-        themeToggleButton.addEventListener('click', () => {
-            const currentTheme = body.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            localStorage.setItem('theme', newTheme);
-            applyTheme(newTheme);
-        });
-
-        openModalButton.addEventListener('click', () => {
-            infoModal.style.display = 'flex';
-        });
-
-        closeModalButton.addEventListener('click', () => {
-            infoModal.style.display = 'none';
-        });
-
-        window.addEventListener('click', (event) => {
-            if (event.target == infoModal) {
-                infoModal.style.display = 'none';
-            }
-        });
-
-        document.getElementById('url-bar').addEventListener('input', function(e) {
-            const query = e.target.value.toLowerCase();
-            const recommendations = document.getElementById('recommendations');
-            const links = recommendations.getElementsByTagName('a');
-            let hasMatch = false;
-
-            for (let i = 0; i < links.length; i++) {
-                const link = links[i];
-                if (link.textContent.toLowerCase().includes(query)) {
-                    link.style.display = 'block';
-                    hasMatch = true;
-                } else {
-                    link.style.display = 'none';
-                }
-            }
-
-            recommendations.style.display = hasMatch ? 'block' : 'none';
-        });
-
-        document.getElementById('url-bar').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                const query = e.target.value;
-                if (query.startsWith('http://') || query.startsWith('https://')) {
-                    document.getElementById('browser-frame').src = query;
-                } else {
-                    document.getElementById('browser-frame').src = 'https://www.google.com/search?q=' + encodeURIComponent(query);
-                }
-                document.getElementById('recommendations').style.display = 'none';
-            }
-        });
-
-        document.getElementById('back-btn').addEventListener('click', function() {
-            document.getElementById('browser-frame').contentWindow.history.back();
-        });
-
-        document.getElementById('forward-btn').addEventListener('click', function() {
-            document.getElementById('browser-frame').contentWindow.history.forward();
-        });
-
-        document.getElementById('reload-btn').addEventListener('click', function() {
-            document.getElementById('browser-frame').contentWindow.location.reload();
-        });
-
-        document.getElementById('home-btn').addEventListener('click', function() {
-            document.getElementById('browser-frame').src = 'https://www.google.com';
-        });
-
-        document.getElementById('stop-btn').addEventListener('click', function() {
-            document.getElementById('browser-frame').contentWindow.stop();
-        });
-
-        document.getElementById('bookmark-btn').addEventListener('click', function() {
-            const url = document.getElementById('browser-frame').contentWindow.location.href;
-            const title = document.getElementById('browser-frame').contentWindow.document.title;
-            const bookmark = { url, title };
-            const bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
-            bookmarks.push(bookmark);
-            localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
-            alert('Bookmark added!');
-        });
-
-        document.getElementById('settings-btn').addEventListener('click', function() {
-            // Open settings page
-        });
-
-        // Search bar functionality
-        const searchButton = document.getElementById('search-btn');
-        const searchBar = document.getElementById('url-bar');
-
-        searchButton.addEventListener('click', function() {
-            const query = searchBar.value;
-            if (query.startsWith('http://') || query.startsWith('https://')) {
-                document.getElementById('browser-frame').src = query;
-            } else {
-                document.getElementById('browser-frame').src = 'https://www.google.com/search?q=' + encodeURIComponent(query);
-            }
-        });
-
-        // Add event listener to search bar for Enter key press
-        searchBar.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                searchButton.click();
-            }
-        });
-    </script>
-</body>
+    <div class="flex items-center space-x-2">
+     <button class="p-2 hover:bg-gray-800 rounded" onclick="alert('User profile button clicked!')">
+      <i class="fas fa-user-circle">
+      </i>
+     </button>
+     <button class="p-2 hover:bg-gray-800 rounded" onclick="alert('More options button clicked!')">
+      <i class="fas fa-ellipsis-v">
+      </i>
+     </button>
+    </div>
+   </div>
+   <!-- Search Bar for Mobile -->
+   <div class="md:hidden p-2 bg-black border-b border-gray-700 slide-in">
+    <form class="flex items-center bg-gray-900 rounded-full overflow-hidden" action="https://www.google.com/search" method="GET">
+     <img alt="Magnifying glass icon representing search" class="w-4 h-4 ml-2" height="16" src="https://storage.googleapis.com/a1aa/image/mUUIBrCUim59HFywC3Kgi0tNrHyTyyB2ZHvMRxo7PEpB35eJA.jpg" width="16"/>
+     <input class="flex-grow p-2 outline-none bg-gray-900 text-white rounded-full" name="q" placeholder="Search Google or type a URL" type="text"/>
+     <button class="p-2" type="submit">
+      <i class="fas fa-microphone">
+      </i>
+     </button>
+    </form>
+   </div>
+   <!-- Main Content -->
+   <div class="flex-grow flex flex-col items-center justify-center fade-in">
+    <div class="max-w-4xl w-full p-4">
+     <h1 class="text-2xl font-bold mb-4">Welcome to TruthWeb Browser</h1>
+     <p class="mb-4">Experience the web like never before with our fast and secure browser. Here are some of the features you can enjoy:</p>
+     <ul class="list-disc list-inside mb-4">
+      <li>Fast browsing speed</li>
+      <li>Enhanced security</li>
+      <li>Customizable interface</li>
+      <li>Built-in ad blocker</li>
+      <li>Privacy protection</li>
+     </ul>
+     <h2 class="text-xl font-semibold mb-2">Latest News</h2>
+     <div class="space-y-4">
+      <div class="bg-gray-800 p-4 rounded">
+       <h3 class="text-lg font-semibold">News Item 1</h3>
+       <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.</p>
+      </div>
+      <div class="bg-gray-800 p-4 rounded">
+       <h3 class="text-lg font-semibold">News Item 2</h3>
+       <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.</p>
+      </div>
+      <div class="bg-gray-800 p-4 rounded">
+       <h3 class="text-lg font-semibold">News Item 3</h3>
+       <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.</p>
+      </div>
+     </div>
+    </div>
+   </div>
+   <!-- Footer -->
+   <div class="bg-black p-2 text-center border-t border-gray-700 fade-in">
+    <p class="text-sm">
+     © 2024 TruthWeb Browser
+    </p>
+   </div>
+   <!-- Menu Bar -->
+   <div class="fixed bottom-0 left-0 right-0 bg-black p-2 border-t border-gray-700 flex justify-around md:hidden">
+    <button class="p-2 hover:bg-gray-800 rounded" onclick="alert('Home button clicked!')">
+     <i class="fas fa-home">
+     </i>
+    </button>
+    <button class="p-2 hover:bg-gray-800 rounded" onclick="alert('Search button clicked!')">
+     <i class="fas fa-search">
+     </i>
+    </button>
+    <button class="p-2 hover:bg-gray-800 rounded" onclick="alert('Bookmarks button clicked!')">
+     <i class="fas fa-bookmark">
+     </i>
+    </button>
+    <button class="p-2 hover:bg-gray-800 rounded" onclick="alert('Settings button clicked!')">
+     <i class="fas fa-cog">
+     </i>
+    </button>
+   </div>
+  </div>
+ </body>
 </html>
