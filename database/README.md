@@ -19,6 +19,6 @@ Welcome to the Truth Seekers Deck repository! This project is a collection of NF
 2. Use the provided JSON metadata for minting and integration with your NFT platform.
 
 ## License:
-This project is licensed under the **MIT License**.
+This project is licensed under the **GNU GENERAL PUBLIC LICENSE**.
 
 
