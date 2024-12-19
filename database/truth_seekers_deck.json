@@ -1,1 +1,65 @@
+{
+  "cards": [
+    {
+      "name": "Welcome Card",
+      "template": "Special Edition Template",
+      "rarity": "✨ Limited Edition",
+      "symbol": "🌟",
+      "type": "Token",
+      "level": 1,
+      "style_variant": "Normal",
+      "attack": 0,
+      "defense": 0,
+      "set": "Welcome Set",
+      "serial_number": "WELCOME-0001",
+      "effect": "Grants a Community Badge and access to exclusive updates. Limited Edition (1,000 Welcome Cards only).",
+      "mint_price": 0,
+      "supply": 1000,
+      "distribution": "First 1,000 new community members or as part of promotions."
+    },
+    {
+      "name": "Card 1",
+      "template": "Template A",
+      "rarity": "🟩 Common",
+      "symbol": "None",
+      "type": "Normal",
+      "level": 1,
+      "style_variant": "Normal",
+      "attack": 1000,
+      "defense": 800,
+      "set": "Truth Seekers Set",
+      "serial_number": "SN-1001",
+      "effect": "Effect goes here"
+    },
+    {
+      "name": "Card 2",
+      "template": "Template A",
+      "rarity": "🟩 Common",
+      "symbol": "None",
+      "type": "Normal",
+      "level": 2,
+      "style_variant": "Normal",
+      "attack": 1100,
+      "defense": 900,
+      "set": "Truth Seekers Set",
+      "serial_number": "SN-1002",
+      "effect": "Effect goes here"
+    },
+    {
+      "name": "Card 3",
+      "template": "Template A",
+      "rarity": "🟩 Common",
+      "symbol": "None",
+      "type": "Normal",
+      "level": 3,
+      "style_variant": "Normal",
+      "attack": 1200,
+      "defense": 1000,
+      "set": "Truth Seekers Set",
+      "serial_number": "SN-1003",
+      "effect": "Effect goes here"
+    }
+    // Additional cards can follow the same format...
+  ]
+}
 
