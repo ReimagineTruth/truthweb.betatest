@@ -1,0 +1,165 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   NFT Gallery Museum
+  </title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+   body {
+            font-family: 'Roboto', sans-serif;
+        }
+        .card {
+            perspective: 1000px;
+        }
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s, box-shadow 0.6s, transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .card:hover .card-inner {
+            transform: rotateY(180deg);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 0.5rem;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+        }
+        .card:hover .card-front {
+            filter: brightness(0.8);
+        }
+        .card:hover .card-back {
+            filter: brightness(1.2);
+        }
+        .card:active .card-inner {
+            transform: scale(1.2);
+            z-index: 20;
+        }
+        .card:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s ease-in-out;
+        }
+        .card:focus-within .card-inner {
+            transform: scale(1.2);
+            z-index: 20;
+        }
+        .buttons {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+        }
+        .buttons button {
+            background: rgba(255, 255, 255, 0.7);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .buttons button:hover {
+            background: rgba(255, 255, 255, 1);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 50;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 0.5rem;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+  </style>
+ </head>
+ <body class="bg-gray-100 flex items-center justify-center min-h-screen relative">
+  <img alt="Background image of an NFT gallery museum with digital art pieces displayed on screens" class="absolute inset-0 w-full h-full object-cover z-0" height="1080" src="https://storage.googleapis.com/a1aa/image/Z8wVsz24ZappI9Jfsl76hXymbG6H6dhyCfB9cqV9eOyJ7Y5nA.jpg" width="1920"/>
+  <div class="card w-64 h-96 z-10 focus:outline-none" tabindex="0">
+   <div class="card-inner">
+    <div class="card-front bg-white shadow-lg rounded-lg p-0 flex items-center justify-center">
+     <img alt="Front of the card with an image of a digital NFT artwork" class="w-full h-full object-cover rounded-lg" src="https://i.ibb.co/DCBfHc8/download-3.jpg"/>
+    </div>
+    <div class="card-back bg-blue-500 shadow-lg rounded-lg p-0 flex items-center justify-center">
+     <img alt="Back of the card with an image of a digital NFT artwork" class="w-full h-full object-cover rounded-lg" src="https://i.ibb.co/84rWYh0/Untitled-design-40.png"/>
+    </div>
+   </div>
+  </div>
+  <div class="buttons z-20">
+   <button id="viewDetailsButton">
+    View Details
+   </button>
+   <button>
+    Buy
+   </button>
+  </div>
+  <!-- Modal -->
+  <div class="modal" id="infoModal">
+   <div class="modal-content">
+    <span class="close" id="closeModalButton">
+     &times;
+    </span>
+    <h2>
+     About TruthWeb
+    </h2>
+    <p>
+     TruthWeb is a cutting-edge platform dedicated to delivering accurate, real-time information to users worldwide. 📚 Our mission is to ensure that everyone has seamless access to verified and up-to-date truths, fostering a more informed and connected global community. 🌐
+    </p>
+   </div>
+  </div>
+  <script>
+   const viewDetailsButton = document.getElementById('viewDetailsButton');
+        const infoModal = document.getElementById('infoModal');
+        const closeModalButton = document.getElementById('closeModalButton');
+
+        viewDetailsButton.addEventListener('click', () => {
+            infoModal.style.display = 'block';
+        });
+
+        closeModalButton.addEventListener('click', () => {
+            infoModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target == infoModal) {
+                infoModal.style.display = 'none';
+            }
+        });
+  </script>
+ </body>
+</html>
