@@ -1,13 +1,16 @@
 <html lang="en">
-<head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>360 Rotate NFT Card</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
-    <style>
-        body {
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   360 Rotate NFT Card
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
+  <style>
+   body {
             font-family: 'Roboto', sans-serif;
         }
         .card {
@@ -147,46 +150,213 @@
             padding: 0.5rem;
             border-radius: 0.25rem;
         }
-    </style>
-</head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen relative">
-    <div class="card w-64 h-96 z-10 focus:outline-none" tabindex="0">
-        <div class="card-inner">
-            <div class="card-front bg-white shadow-lg rounded-lg p-0 flex items-center justify-center">
-                <img alt="Front of the card with an image of a digital NFT artwork" class="w-full h-full object-cover rounded-lg" src="https://i.ibb.co/DCBfHc8/download-3.jpg"/>
-            </div>
-            <div class="card-back bg-blue-500 shadow-lg rounded-lg p-0 flex items-center justify-center">
-                <img alt="Back of the card with an image of a digital NFT artwork" class="w-full h-full object-cover rounded-lg" src="https://i.ibb.co/84rWYh0/Untitled-design-40.png"/>
-            </div>
-        </div>
+  </style>
+ </head>
+ <body class="bg-gray-100 flex items-center justify-center min-h-screen relative">
+  <div class="card w-64 h-96 z-10 focus:outline-none" tabindex="0">
+   <div class="card-inner">
+    <div class="card-front bg-white shadow-lg rounded-lg p-0 flex items-center justify-center">
+     <div class="w-full h-full flex items-center justify-center text-2xl font-bold text-gray-700">
+      Front Side
+     </div>
     </div>
-    <div class="buttons z-20">
-        <button id="viewDetailsButton">View Details</button>
-        <button>Buy</button>
+    <div class="card-back bg-blue-500 shadow-lg rounded-lg p-0 flex items-center justify-center">
+     <div class="w-full h-full flex items-center justify-center text-2xl font-bold text-white">
+      Back Side
+     </div>
     </div>
-    <!-- Modal -->
-    <div class="modal" id="infoModal">
-        <div class="modal-content">
-            <span class="close" id="closeModalButton">×</span>
-            <h2>Card Details</h2>
-            <p><strong>Name:</strong> Card 1</p>
-            <p><strong>Template:</strong> Template A</p>
-            <p><strong>Rarity:</strong> 🟩 Common</p>
-            <p><strong>Symbol:</strong> None</p>
-            <p><strong>Type:</strong> Normal</p>
-            <p><strong>Level:</strong> 1</p>
-            <p><strong>Style Variant:</strong> Normal</p>
-            <p><strong>Attack:</strong> 1000</p>
-            <p><strong>Defense:</strong> 800</p>
-            <p><strong>Set:</strong> Set A</p>
-            <p><strong>Serial Number:</strong> SN-1001</p>
-            <p><strong>Effect:</strong> Effect goes here</p>
-        </div>
+   </div>
+  </div>
+  <div class="buttons z-20">
+   <button id="viewDetailsButton">
+    View Details
+   </button>
+   <button id="buyButton">
+    Buy
+   </button>
+   <button id="themeButton">
+    Change Theme
+   </button>
+  </div>
+  <!-- Modal -->
+  <div class="modal" id="infoModal">
+   <div class="modal-content">
+    <span class="close" id="closeModalButton">
+     ×
+    </span>
+    <h2>
+     Card Details
+    </h2>
+    <p>
+     <strong>
+      Name:
+     </strong>
+     Card 1
+    </p>
+    <p>
+     <strong>
+      Template:
+     </strong>
+     Template A
+    </p>
+    <p>
+     <strong>
+      Rarity:
+     </strong>
+     🟩 Common
+    </p>
+    <p>
+     <strong>
+      Symbol:
+     </strong>
+     None
+    </p>
+    <p>
+     <strong>
+      Type:
+     </strong>
+     Normal
+    </p>
+    <p>
+     <strong>
+      Level:
+     </strong>
+     1
+    </p>
+    <p>
+     <strong>
+      Style Variant:
+     </strong>
+     Normal
+    </p>
+    <p>
+     <strong>
+      Attack:
+     </strong>
+     1000
+    </p>
+    <p>
+     <strong>
+      Defense:
+     </strong>
+     800
+    </p>
+    <p>
+     <strong>
+      Set:
+     </strong>
+     Set A
+    </p>
+    <p>
+     <strong>
+      Serial Number:
+     </strong>
+     SN-1001
+    </p>
+    <p>
+     <strong>
+      Effect:
+     </strong>
+     Effect goes here
+    </p>
+   </div>
+  </div>
+  <!-- Modal -->
+  <div class="modal" id="buyModal">
+   <div class="modal-content">
+    <span class="close" id="closeBuyModalButton">
+     ×
+    </span>
+    <h2>
+     Purchase Card
+    </h2>
+    <p>
+     <strong>
+      Name:
+     </strong>
+     Card 1
+    </p>
+    <p>
+     <strong>
+      Price:
+     </strong>
+     0.5 ETH
+    </p>
+    <button class="mt-4 bg-green-500 text-white py-2 px-4 rounded">
+     Confirm Purchase
+    </button>
+    <button class="mt-4 bg-blue-500 text-white py-2 px-4 rounded">
+     Pay with Pi
+    </button>
+    <button class="mt-4 bg-gray-500 text-white py-2 px-4 rounded">
+     Buy on OpenSea
+    </button>
+   </div>
+  </div>
+  <!-- Modal -->
+  <div class="modal" id="recommendModal">
+   <div class="modal-content">
+    <span class="close" id="closeRecommendModalButton">
+     ×
+    </span>
+    <h2>
+     Recommended Cards
+    </h2>
+    <div class="grid grid-cols-1 gap-4">
+     <div class="bg-gray-800 p-4 rounded-lg">
+      <p>
+       <strong>
+        Name:
+       </strong>
+       Card 2
+      </p>
+      <p>
+       <strong>
+        Price:
+       </strong>
+       0.3 ETH
+      </p>
+      <button class="mt-2 bg-green-500 text-white py-1 px-2 rounded">
+       View
+      </button>
+     </div>
+     <div class="bg-gray-800 p-4 rounded-lg">
+      <p>
+       <strong>
+        Name:
+       </strong>
+       Card 3
+      </p>
+      <p>
+       <strong>
+        Price:
+       </strong>
+       0.7 ETH
+      </p>
+      <button class="mt-2 bg-green-500 text-white py-1 px-2 rounded">
+       View
+      </button>
+     </div>
     </div>
-    <script>
-        const viewDetailsButton = document.getElementById('viewDetailsButton');
+    <button class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-red-500 text-white py-2 px-4 rounded" id="backToMenuButton">
+     Back to Menu
+    </button>
+   </div>
+  </div>
+  <script>
+   const viewDetailsButton = document.getElementById('viewDetailsButton');
         const infoModal = document.getElementById('infoModal');
         const closeModalButton = document.getElementById('closeModalButton');
+        const themeButton = document.getElementById('themeButton');
+        const body = document.body;
+
+        const buyButton = document.getElementById('buyButton');
+        const buyModal = document.getElementById('buyModal');
+        const closeBuyModalButton = document.getElementById('closeBuyModalButton');
+
+        const recommendModal = document.getElementById('recommendModal');
+        const closeRecommendModalButton = document.getElementById('closeRecommendModalButton');
+        const backToMenuButton = document.getElementById('backToMenuButton');
 
         viewDetailsButton.addEventListener('click', () => {
             infoModal.style.display = 'block';
@@ -201,6 +371,50 @@
                 infoModal.style.display = 'none';
             }
         });
-    </script>
-</body>
+
+        buyButton.addEventListener('click', () => {
+            buyModal.style.display = 'block';
+        });
+
+        closeBuyModalButton.addEventListener('click', () => {
+            buyModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target == buyModal) {
+                buyModal.style.display = 'none';
+            }
+        });
+
+        const themes = ['bg-gray-100', 'bg-blue-100', 'bg-green-100', 'bg-yellow-100', 'bg-red-100'];
+        let currentThemeIndex = 0;
+
+        themeButton.addEventListener('click', () => {
+            body.classList.remove(themes[currentThemeIndex]);
+            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+            body.classList.add(themes[currentThemeIndex]);
+        });
+
+        // Show recommended cards modal after a purchase
+        const confirmPurchaseButton = buyModal.querySelector('.bg-green-500');
+        confirmPurchaseButton.addEventListener('click', () => {
+            buyModal.style.display = 'none';
+            recommendModal.style.display = 'block';
+        });
+
+        closeRecommendModalButton.addEventListener('click', () => {
+            recommendModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target == recommendModal) {
+                recommendModal.style.display = 'none';
+            }
+        });
+
+        backToMenuButton.addEventListener('click', () => {
+            recommendModal.style.display = 'none';
+        });
+  </script>
+ </body>
 </html>
