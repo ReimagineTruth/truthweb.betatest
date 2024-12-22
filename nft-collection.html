@@ -1,0 +1,382 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Reimagine Truth
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+ </head>
+ <body class="bg-white text-black">
+  <div class="flex flex-col md:flex-row">
+   <div class="flex-1">
+    <header class="bg-white text-black p-4 flex justify-between items-center relative shadow-md" id="header">
+     <div class="flex flex-col items-center w-full">
+      <h1 class="text-2xl font-bold text-center fade-in">
+       Welcome to Reimagine Truth
+      </h1>
+      <p class="text-lg text-center fade-in">
+       Explore the unique stories of our NFT characters.
+      </p>
+     </div>
+     <button class="text-black focus:outline-none absolute top-4 right-4" id="theme-toggle">
+      <i class="fas fa-moon">
+      </i>
+      <i class="fas fa-sun hidden">
+      </i>
+     </button>
+    </header>
+    <main class="p-4">
+     <div class="flex justify-center mb-6">
+      <input aria-label="Search your NFT serial number" class="w-full max-w-md p-2 rounded bg-gray-200 text-[#202327] placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-black" id="search-bar" placeholder="Search your NFT serial number #" type="text"/>
+      <select class="ml-2 p-2 rounded bg-gray-200 text-[#202327] focus:outline-none focus:ring-2 focus:ring-black" id="rarity-filter">
+       <option value="">
+        All Rarities
+       </option>
+       <option value="Common">
+        Common
+       </option>
+       <option value="Rare">
+        Rare
+       </option>
+       <option value="Ultra Rare">
+        Ultra Rare
+       </option>
+      </select>
+      <button class="ml-2 p-2 bg-[#202327] text-white rounded hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black" onclick="searchNFT()">
+       Search
+      </button>
+     </div>
+     <div class="flex justify-center mb-6" id="view-all-container" style="display: none;">
+      <button class="p-2 bg-[#202327] text-white rounded hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black" onclick="showAllNFTs()">
+       View All
+      </button>
+     </div>
+     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6" id="nft-grid" style="display: none;">
+      <!-- Card 1 -->
+      <div class="border border-gray-300 p-4 bg-white nft-card slide-in transform hover:scale-105 transition-transform shadow-lg rounded-lg" data-serial="#1" style="display: block;">
+       <div class="w-full mb-2 rounded-lg shadow-md h-48 bg-gray-200">
+       </div>
+       <h3 class="text-xl font-bold">
+        Truth Seeker #1
+       </h3>
+       <p>
+        Rarity: Common
+       </p>
+       <a class="text-black" href="Card1.html">
+        View Details
+       </a>
+      </div>
+      <!-- Card 2 -->
+      <div class="border border-gray-300 p-4 bg-white nft-card slide-in transform hover:scale-105 transition-transform shadow-lg rounded-lg" data-serial="#2" style="display: block;">
+       <div class="w-full mb-2 rounded-lg shadow-md h-48 bg-gray-200">
+       </div>
+       <h3 class="text-xl font-bold">
+        Truth Seeker #2
+       </h3>
+       <p>
+        Rarity: Rare
+       </p>
+       <a class="text-black" href="Card2.html">
+        View Details
+       </a>
+      </div>
+      <!-- Card 3 -->
+      <div class="border border-gray-300 p-4 bg-white nft-card slide-in transform hover:scale-105 transition-transform shadow-lg rounded-lg" data-serial="#3" style="display: block;">
+       <div class="w-full mb-2 rounded-lg shadow-md h-48 bg-gray-200">
+       </div>
+       <h3 class="text-xl font-bold">
+        Truth Seeker #3
+       </h3>
+       <p>
+        Rarity: Ultra Rare
+       </p>
+       <a class="text-black" href="Card3.html">
+        View Details
+       </a>
+      </div>
+      <!-- Card 4 -->
+      <div class="border border-gray-300 p-4 bg-white nft-card slide-in transform hover:scale-105 transition-transform shadow-lg rounded-lg" data-serial="#4" style="display: block;">
+       <div class="w-full mb-2 rounded-lg shadow-md h-48 bg-gray-200">
+       </div>
+       <h3 class="text-xl font-bold">
+        Truth Seeker #4
+       </h3>
+       <p>
+        Rarity: Rare
+       </p>
+       <a class="text-black" href="Card4.html">
+        View Details
+       </a>
+      </div>
+      <!-- Card 5 -->
+      <div class="border border-gray-300 p-4 bg-white nft-card slide-in transform hover:scale-105 transition-transform shadow-lg rounded-lg" data-serial="#5" style="display: block;">
+       <div class="w-full mb-2 rounded-lg shadow-md h-48 bg-gray-200">
+       </div>
+       <h3 class="text-xl font-bold">
+        Truth Seeker #5
+       </h3>
+       <p>
+        Rarity: Common
+       </p>
+       <a class="text-black" href="Card5.html">
+        View Details
+       </a>
+      </div>
+      <!-- Card 6 -->
+      <div class="border border-gray-300 p-4 bg-white nft-card slide-in transform hover:scale-105 transition-transform shadow-lg rounded-lg" data-serial="#6" style="display: block;">
+       <div class="w-full mb-2 rounded-lg shadow-md h-48 bg-gray-200">
+       </div>
+       <h3 class="text-xl font-bold">
+        Truth Seeker #6
+       </h3>
+       <p>
+        Rarity: Rare
+       </p>
+       <a class="text-black" href="Card6.html">
+        View Details
+       </a>
+      </div>
+      <!-- Card 7 -->
+      <div class="border border-gray-300 p-4 bg-white nft-card slide-in transform hover:scale-105 transition-transform shadow-lg rounded-lg" data-serial="#7" style="display: block;">
+       <div class="w-full mb-2 rounded-lg shadow-md h-48 bg-gray-200">
+       </div>
+       <h3 class="text-xl font-bold">
+        Truth Seeker #7
+       </h3>
+       <p>
+        Rarity: Ultra Rare
+       </p>
+       <a class="text-black" href="Card7.html">
+        View Details
+       </a>
+      </div>
+      <!-- Card 8 -->
+      <div class="border border-gray-300 p-4 bg-white nft-card slide-in transform hover:scale-105 transition-transform shadow-lg rounded-lg" data-serial="#8" style="display: block;">
+       <div class="w-full mb-2 rounded-lg shadow-md h-48 bg-gray-200">
+       </div>
+       <h3 class="text-xl font-bold">
+        Truth Seeker #8
+       </h3>
+       <p>
+        Rarity: Rare
+       </p>
+       <a class="text-black" href="Card8.html">
+        View Details
+       </a>
+      </div>
+      <!-- Card 9 -->
+      <div class="border border-gray-300 p-4 bg-white nft-card slide-in transform hover:scale-105 transition-transform shadow-lg rounded-lg" data-serial="#9" style="display: block;">
+       <div class="w-full mb-2 rounded-lg shadow-md h-48 bg-gray-200">
+       </div>
+       <h3 class="text-xl font-bold">
+        Truth Seeker #9
+       </h3>
+       <p>
+        Rarity: Common
+       </p>
+       <a class="text-black" href="Card9.html">
+        View Details
+       </a>
+      </div>
+      <!-- Card 10 -->
+      <div class="border border-gray-300 p-4 bg-white nft-card slide-in transform hover:scale-105 transition-transform shadow-lg rounded-lg" data-serial="#10" style="display: block;">
+       <div class="w-full mb-2 rounded-lg shadow-md h-48 bg-gray-200">
+       </div>
+       <h3 class="text-xl font-bold">
+        Truth Seeker #10
+       </h3>
+       <p>
+        Rarity: Rare
+       </p>
+       <a class="text-black" href="Card10.html">
+        View Details
+       </a>
+      </div>
+      <!-- Card 11 -->
+      <div class="border border-gray-300 p-4 bg-white nft-card slide-in transform hover:scale-105 transition-transform shadow-lg rounded-lg" data-serial="#11" style="display: block;">
+       <div class="w-full mb-2 rounded-lg shadow-md h-48 bg-gray-200">
+       </div>
+       <h3 class="text-xl font-bold">
+        Truth Seeker #11
+       </h3>
+       <p>
+        Rarity: Ultra Rare
+       </p>
+       <a class="text-black" href="Card11.html">
+        View Details
+       </a>
+      </div>
+      <!-- Card 12 -->
+      <div class="border border-gray-300 p-4 bg-white nft-card slide-in transform hover:scale-105 transition-transform shadow-lg rounded-lg" data-serial="#12" style="display: block;">
+       <div class="w-full mb-2 rounded-lg shadow-md h-48 bg-gray-200">
+       </div>
+       <h3 class="text-xl font-bold">
+        Truth Seeker #12
+       </h3>
+       <p>
+        Rarity: Rare
+       </p>
+       <a class="text-black" href="Card12.html">
+        View Details
+       </a>
+      </div>
+      <!-- Card 13 -->
+      <div class="border border-gray-300 p-4 bg-white nft-card slide-in transform hover:scale-105 transition-transform shadow-lg rounded-lg" data-serial="#13" style="display: block;">
+       <div class="w-full mb-2 rounded-lg shadow-md h-48 bg-gray-200">
+       </div>
+       <h3 class="text-xl font-bold">
+        Truth Seeker #13
+       </h3>
+       <p>
+        Rarity: Common
+       </p>
+       <a class="text-black" href="Card13.html">
+        View Details
+       </a>
+      </div>
+      <!-- Card 14 -->
+      <div class="border border-gray-300 p-4 bg-white nft-card slide-in transform hover:scale-105 transition-transform shadow-lg rounded-lg" data-serial="#14" style="display: block;">
+       <div class="w-full mb-2 rounded-lg shadow-md h-48 bg-gray-200">
+       </div>
+       <h3 class="text-xl font-bold">
+        Truth Seeker #14
+       </h3>
+       <p>
+        Rarity: Rare
+       </p>
+       <a class="text-black" href="Card14.html">
+        View Details
+       </a>
+      </div>
+      <!-- Card 15 -->
+      <div class="border border-gray-300 p-4 bg-white nft-card slide-in transform hover:scale-105 transition-transform shadow-lg rounded-lg" data-serial="#15" style="display: block;">
+       <div class="w-full mb-2 rounded-lg shadow-md h-48 bg-gray-200">
+       </div>
+       <h3 class="text-xl font-bold">
+        Truth Seeker #15
+       </h3>
+       <p>
+        Rarity: Ultra Rare
+       </p>
+       <a class="text-black" href="Card15.html">
+        View Details
+       </a>
+      </div>
+     </div>
+     <div class="text-center mt-4" id="no-results" style="display: none;">
+      <p class="text-red-500">
+       No results found. Please try a different serial number.
+      </p>
+     </div>
+     <!-- News Section -->
+     <section class="p-4 bg-white text-black rounded mb-6 fade-in shadow-lg max-w-4xl mx-auto" id="news-section">
+      <h2 class="text-2xl font-bold mb-4">
+       <i class="fas fa-newspaper mr-2">
+       </i>
+       Latest News
+      </h2>
+      <p class="text-lg">
+       Stay tuned for the latest updates and announcements.
+      </p>
+      <a class="p-2 bg-[#202327] text-white rounded hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black inline-block mt-4" href="news.html">
+       Read More
+      </a>
+     </section>
+    </main>
+   </div>
+  </div>
+  <audio id="click-sound" preload="auto" src="https://www.soundjay.com/button/sounds/button-16.mp3">
+  </audio>
+  <script>
+   function searchNFT() {
+            const searchValue = document.getElementById('search-bar').value.trim();
+            const rarityFilter = document.getElementById('rarity-filter').value;
+            const nftCards = document.querySelectorAll('.nft-card');
+            let found = false;
+
+            nftCards.forEach(card => {
+                const serialMatch = card.getAttribute('data-serial') === searchValue || searchValue === '';
+                const rarityMatch = card.querySelector('p').textContent.includes(rarityFilter) || rarityFilter === '';
+
+                if (serialMatch && rarityMatch) {
+                    card.style.display = 'block';
+                    found = true;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            if (found) {
+                document.getElementById('view-all-container').style.display = 'flex';
+                document.getElementById('no-results').style.display = 'none';
+                document.getElementById('nft-grid').style.display = 'grid';
+            } else {
+                document.getElementById('view-all-container').style.display = 'none';
+                document.getElementById('no-results').style.display = 'block';
+                document.getElementById('nft-grid').style.display = 'none';
+            }
+            playClickSound();
+        }
+
+        function showAllNFTs() {
+            const nftCards = document.querySelectorAll('.nft-card');
+            nftCards.forEach(card => {
+                card.style.display = 'block';
+            });
+            document.getElementById('view-all-container').style.display = 'none';
+            document.getElementById('no-results').style.display = 'none';
+            document.getElementById('nft-grid').style.display = 'grid';
+            playClickSound();
+        }
+
+        function playClickSound() {
+            const clickSound = document.getElementById('click-sound');
+            clickSound.play();
+        }
+
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', () => {
+                button.classList.add('button-click');
+                setTimeout(() => {
+                    button.classList.remove('button-click');
+                }, 200);
+            });
+        });
+
+        const themeToggle = document.getElementById('theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('bg-white');
+            document.body.classList.toggle('bg-black');
+            document.body.classList.toggle('text-black');
+            document.body.classList.toggle('text-white');
+            document.getElementById('header').classList.toggle('bg-white');
+            document.getElementById('header').classList.toggle('bg-black');
+            document.getElementById('header').classList.toggle('text-black');
+            document.getElementById('header').classList.toggle('text-white');
+            document.getElementById('search-bar').classList.toggle('bg-gray-200');
+            document.getElementById('search-bar').classList.toggle('bg-gray-800');
+            document.getElementById('search-bar').classList.toggle('text-[#202327]');
+            document.getElementById('search-bar').classList.toggle('text-white');
+            document.getElementById('rarity-filter').classList.toggle('bg-gray-200');
+            document.getElementById('rarity-filter').classList.toggle('bg-gray-800');
+            document.getElementById('rarity-filter').classList.toggle('text-[#202327]');
+            document.getElementById('rarity-filter').classList.toggle('text-white');
+            document.querySelectorAll('.nft-card').forEach(card => {
+                card.classList.toggle('bg-white');
+                card.classList.toggle('bg-gray-800');
+                card.querySelector('h3').classList.toggle('text-black');
+                card.querySelector('h3').classList.toggle('text-white');
+                card.querySelector('p').classList.toggle('text-black');
+                card.querySelector('p').classList.toggle('text-white');
+                card.querySelector('a').classList.toggle('text-black');
+                card.querySelector('a').classList.toggle('text-white');
+            });
+            document.querySelector('.fa-moon').classList.toggle('hidden');
+            document.querySelector('.fa-sun').classList.toggle('hidden');
+        });
+  </script>
+ </body>
+</html>
